@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { CardDemo } from "./CardDemo";
 import useBookStore from "@/store/book";
+import { toast } from "react-toastify";
 
 interface CustomComponentProps {
   title: string;
@@ -11,32 +12,66 @@ const CustomComponent: FC<CustomComponentProps> = ({ title, books }) => {
   const removeBook = useBookStore((state) => state.removeBook);
   const updateBook = useBookStore((state) => state.updateBook);
   const handleStatusChange = async (bookId: number, newStatus: string) => {
-    const formData = {
-      status: newStatus,
-    };
-    const res = await fetch(`/api/books/${bookId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-    const content = await res.json();
-    updateBook(bookId, { status: newStatus });
+    try {
+      const formData = {
+        status: newStatus,
+      };
+      const res = await fetch(`/api/books/${bookId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to update book status");
+      }
+
+      const content = await res.json();
+      updateBook(bookId, { status: newStatus });
+    } catch (error) {
+      toast("Error happen in fetching", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
 
   const removeBooks = async (id: number) => {
-    const res = await fetch(`/api/books/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const content = await res.json();
-    removeBook(id);
+    try {
+      const res = await fetch(`/api/books/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to delete book");
+      }
+
+      removeBook(id);
+    } catch (error) {
+      toast("Error happen in fetching", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
 
-  console.log(books);
   return (
     <div className="bg-white rounded-lg shadow-md border-2 border-white-600 h-[550px]">
       <div className="h-20  bg-white rounded-lg shadow-md border-2 border-white-600 flex justify-center items-center">

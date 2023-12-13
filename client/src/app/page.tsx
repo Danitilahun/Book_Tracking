@@ -1,4 +1,5 @@
 "use client";
+import { toast } from "react-toastify";
 import CustomComponent from "./components/CustomComponent";
 import { ProfileForm } from "./components/ProfileForm";
 import useBookStore from "@/store/book";
@@ -22,7 +23,16 @@ export default function Home() {
       const data = await response.json();
       addBooks(data.result || []);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      toast("Error happen in fetching", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
@@ -36,19 +46,33 @@ export default function Home() {
   const completedBooks = books?.filter((book) => book?.status === "Completed");
 
   const addNewBooks = async (title: string) => {
-    const add = await fetch("/api/books", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ title, status: "To-Read" }),
-    });
+    try {
+      const add = await fetch("/api/books", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title, status: "To-Read" }),
+      });
 
-    console.log(add);
-    const content = await add.json();
+      if (!add.ok) {
+        throw new Error("Failed to add new book");
+      }
 
-    console.log("content", content);
-    addBook(content);
+      const content = await add.json();
+      addBook(content);
+    } catch (error) {
+      toast("Error happen in fetching", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
 
   return (
