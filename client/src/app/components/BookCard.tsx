@@ -18,7 +18,7 @@ const BookCard: React.FC<BookCardProps> = ({ className, book }) => {
   }
 
   return (
-    <Card className={cn("w-full m-2", className)}>
+    <Card className={cn("w-full m-1", className)}>
       <CardHeader>
         <CardTitle
           className={cn(
