@@ -2,6 +2,8 @@ import React, { FC } from "react";
 import { CardDemo } from "./CardDemo";
 import useBookStore from "@/store/book";
 import { toast } from "react-toastify";
+import Load from "./Loader";
+import useLoadingStore from "@/store/loading";
 
 interface CustomComponentProps {
   title: string;
@@ -11,8 +13,11 @@ interface CustomComponentProps {
 const CustomComponent: FC<CustomComponentProps> = ({ title, books }) => {
   const removeBook = useBookStore((state) => state.removeBook);
   const updateBook = useBookStore((state) => state.updateBook);
+  const isLoading = useLoadingStore((state) => state.isLoading);
+  const setIsLoading = useLoadingStore((state) => state.setIsLoading);
   const handleStatusChange = async (bookId: number, newStatus: string) => {
     try {
+      setIsLoading(true);
       const formData = {
         status: newStatus,
       };
@@ -41,11 +46,14 @@ const CustomComponent: FC<CustomComponentProps> = ({ title, books }) => {
         progress: undefined,
         theme: "light",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const removeBooks = async (id: number) => {
     try {
+      setIsLoading(true);
       const res = await fetch(`/api/books/${id}`, {
         method: "DELETE",
         headers: {
@@ -69,9 +77,14 @@ const CustomComponent: FC<CustomComponentProps> = ({ title, books }) => {
         progress: undefined,
         theme: "light",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  if (isLoading) {
+    return <Load />;
+  }
   return (
     <div className="bg-white rounded-lg shadow-md border-2 border-white-600 h-[550px]">
       <div className="h-20  bg-white rounded-lg shadow-md border-2 border-white-600 flex justify-center items-center">

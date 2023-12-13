@@ -4,10 +4,14 @@ import CustomComponent from "./components/CustomComponent";
 import { ProfileForm } from "./components/ProfileForm";
 import useBookStore from "@/store/book";
 import { useEffect } from "react";
+import useLoadingStore from "@/store/loading";
+import Load from "./components/Loader";
 
 export default function Home() {
   const addBooks = useBookStore((state) => state.addBooks);
   const addBook = useBookStore((state) => state.addBook);
+  const isLoading = useLoadingStore((state) => state.isLoading);
+  const setIsLoading = useLoadingStore((state) => state.setIsLoading);
 
   // Fetch data on component mount
   useEffect(() => {
@@ -16,6 +20,7 @@ export default function Home() {
 
   const fetchData = async () => {
     try {
+      setIsLoading(true);
       const response = await fetch(`/api/books`);
       if (!response.ok) {
         throw new Error("Failed to fetch data");
@@ -33,6 +38,8 @@ export default function Home() {
         progress: undefined,
         theme: "light",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -47,6 +54,7 @@ export default function Home() {
 
   const addNewBooks = async (title: string) => {
     try {
+      setIsLoading(true);
       const add = await fetch("/api/books", {
         method: "POST",
         headers: {
@@ -72,9 +80,14 @@ export default function Home() {
         progress: undefined,
         theme: "light",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  if (isLoading) {
+    return <Load />;
+  }
   return (
     <main className="h-screen flex justify-center items-center bg-gray-100">
       <div className="h-full w-full max-w-screen-lg mx-auto flex flex-col">
