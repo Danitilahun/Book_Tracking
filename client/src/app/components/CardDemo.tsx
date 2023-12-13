@@ -24,20 +24,20 @@ type Book = {
 
 type ExtendedCardProps = CardProps & {
   book: Book;
-//   handleStatusChange: (bookId: number, newStatus: string) => void;
-//   removeBook: (id: number) => void;
+  handleStatusChange: (bookId: number, newStatus: string) => void;
+  removeBook: (id: number) => void;
 };
 type CardProps = React.ComponentProps<typeof Card>;
 
 export function CardDemo({
   className,
-//   handleStatusChange,
-//   removeBook,
+  handleStatusChange,
+  removeBook,
   book,
   ...props
 }: ExtendedCardProps) {
   const handleDelete = () => {
-    // removeBook(book.id);
+    removeBook(book.id);
   };
   return (
     <Card className={cn("w-full m-2", className)} {...props}>
@@ -57,7 +57,7 @@ export function CardDemo({
         {book.status !== "To-Read" && (
           <Button
             className="w-full"
-            // onClick={() => handleStatusChange(book.id, "To-Read")}
+            onClick={() => handleStatusChange(book.id, "To-Read")}
           >
             Mark as to-read
           </Button>
@@ -65,7 +65,7 @@ export function CardDemo({
         {book.status !== "In-Progress" && (
           <Button
             className="w-full"
-            // onClick={() => handleStatusChange(book.id, "In-Progress")}
+            onClick={() => handleStatusChange(book.id, "In-Progress")}
           >
             Mark as in progress
           </Button>
@@ -73,7 +73,7 @@ export function CardDemo({
         {book.status !== "Completed" && (
           <Button
             className="w-full"
-            // onClick={() => handleStatusChange(book.id, "Completed")}
+            onClick={() => handleStatusChange(book.id, "Completed")}
           >
             Mark as Completed
           </Button>
