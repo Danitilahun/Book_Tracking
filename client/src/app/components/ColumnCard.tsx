@@ -1,20 +1,21 @@
 import React, { FC } from "react";
-import { CardDemo } from "./CardDemo";
+import { BookCard } from "./BookCard";
 import useBookStore from "@/store/book";
 import { toast } from "react-toastify";
 import Load from "./Loader";
 import useLoadingStore from "@/store/loading";
 
-interface CustomComponentProps {
+interface ColumnCardProps {
   title: string;
   books: Book[];
 }
 
-const CustomComponent: FC<CustomComponentProps> = ({ title, books }) => {
+const ColumnCard: FC<ColumnCardProps> = ({ title, books }) => {
   const removeBook = useBookStore((state) => state.removeBook);
   const updateBook = useBookStore((state) => state.updateBook);
   const isLoading = useLoadingStore((state) => state.isLoading);
   const setIsLoading = useLoadingStore((state) => state.setIsLoading);
+
   const handleStatusChange = async (bookId: number, newStatus: string) => {
     try {
       setIsLoading(true);
@@ -92,7 +93,7 @@ const CustomComponent: FC<CustomComponentProps> = ({ title, books }) => {
       </div>
       <div className=" max-h-[450px] overflow-y-auto overflow-x-hidden   mb-0 p-2 flex flex-col items-center ">
         {books?.map((book, index) => (
-          <CardDemo
+          <BookCard
             key={index}
             book={book}
             handleStatusChange={handleStatusChange}
@@ -104,4 +105,4 @@ const CustomComponent: FC<CustomComponentProps> = ({ title, books }) => {
   );
 };
 
-export default CustomComponent;
+export default ColumnCard;

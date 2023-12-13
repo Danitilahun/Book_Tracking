@@ -1,26 +1,7 @@
 "use client";
-
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-
-import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-
-type Book = {
-  id: number;
-  title: string;
-  status: string;
-};
 
 type ExtendedCardProps = CardProps & {
   book: Book;
@@ -29,7 +10,7 @@ type ExtendedCardProps = CardProps & {
 };
 type CardProps = React.ComponentProps<typeof Card>;
 
-export function CardDemo({
+export function BookCard({
   className,
   handleStatusChange,
   removeBook,
@@ -50,7 +31,6 @@ export function CardDemo({
         >
           {book.title}
         </CardTitle>
-        {/* <CardDescription>You have 3 unread messages.</CardDescription> */}
       </CardHeader>
 
       <CardFooter className="flex-col gap-2">

@@ -1,7 +1,7 @@
 "use client";
 import { toast } from "react-toastify";
-import CustomComponent from "./components/CustomComponent";
-import { ProfileForm } from "./components/ProfileForm";
+import CustomComponent from "./components/ColumnCard";
+import { AddNewBookForm } from "./components/AddNewBook";
 import useBookStore from "@/store/book";
 import { useEffect } from "react";
 import useLoadingStore from "@/store/loading";
@@ -92,7 +92,7 @@ export default function Home() {
     <main className="h-screen flex justify-center items-center bg-gray-100">
       <div className="h-full w-full max-w-screen-lg mx-auto flex flex-col">
         <div className="bg-white h-1/6 sm:h-1/4 md:h-1/6 shadow-md border-b-4 border-white-600 mt-2 flex items-center justify-center ">
-          <ProfileForm addNewBooks={addNewBooks} />
+          <AddNewBookForm addNewBooks={addNewBooks} />
         </div>{" "}
         <div className="flex flex-col h-5/6 sm:h-3/4 md:h-5/6 py-3">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 h-full">

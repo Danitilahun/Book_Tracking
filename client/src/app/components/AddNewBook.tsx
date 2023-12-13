@@ -1,11 +1,8 @@
 "use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
-import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -16,12 +13,12 @@ import {
 import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+  bookTitle: z.string().min(2, {
+    message: "Book title must be at least 3 characters long",
   }),
 });
 
-export function ProfileForm({
+export function AddNewBookForm({
   addNewBooks,
 }: {
   addNewBooks: (title: string) => void;
@@ -29,13 +26,13 @@ export function ProfileForm({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      bookTitle: "",
     },
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    addNewBooks(values.username); // Call the addBook function to add a new book
-    form.reset(); // Reset the form after submission
+    addNewBooks(values.bookTitle);
+    form.reset();
   };
 
   return (
@@ -46,7 +43,7 @@ export function ProfileForm({
       >
         <FormField
           control={form.control}
-          name="username"
+          name="bookTitle"
           render={({ field }) => (
             <FormItem>
               <div className="flex gap-2">
