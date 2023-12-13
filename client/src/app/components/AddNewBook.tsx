@@ -17,8 +17,11 @@ import useBookStore from "@/store/book";
 import { addNewBook } from "@/utils/apiFunctions";
 import { showErrorToast } from "@/utils/helper";
 import { formSchema } from "@/utils/validationSchema";
+import { useRef } from "react";
 
 export function AddNewBookForm() {
+  const inputRef = useRef(null);
+
   const { isLoading, setIsLoading } = useLoadingStore((state) => ({
     isLoading: state.isLoading,
     setIsLoading: state.setIsLoading,
@@ -36,6 +39,7 @@ export function AddNewBookForm() {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
+    // Clear the input field value using the ref after form submission
     addNewBooks(values.bookTitle);
     form.reset();
   };
@@ -70,9 +74,15 @@ export function AddNewBookForm() {
               <FormItem>
                 <div className="flex gap-2">
                   <FormControl>
-                    <Input placeholder="Book title" {...field} />
+                    <Input
+                      placeholder="Book title"
+                      {...field}
+                      data-testid="my-input"
+                    />
                   </FormControl>
-                  <Button type="submit">Add Book</Button>
+                  <Button type="submit">
+                    {isLoading ? "Submiting" : "Add Book"}
+                  </Button>
                 </div>
                 <FormMessage />
               </FormItem>
