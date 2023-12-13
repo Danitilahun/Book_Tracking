@@ -5,4 +5,4 @@ from typing import Optional
 class Book:
     id: Optional[int] = None
     title: Optional[str] = None
-    status: str
+    status:  Optional[str] = None
