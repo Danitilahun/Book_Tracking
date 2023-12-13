@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { CardDemo } from "./CardDemo";
+import useBookStore from "@/store/book";
 
 interface CustomComponentProps {
   title: string;
@@ -7,7 +8,9 @@ interface CustomComponentProps {
 }
 
 const CustomComponent: FC<CustomComponentProps> = ({ title, books }) => {
-  const handleStatusChange = async (bookId: Number, newStatus: string) => {
+  const removeBook = useBookStore((state) => state.removeBook);
+  const updateBook = useBookStore((state) => state.updateBook);
+  const handleStatusChange = async (bookId: number, newStatus: string) => {
     const formData = {
       status: newStatus,
     };
@@ -19,9 +22,10 @@ const CustomComponent: FC<CustomComponentProps> = ({ title, books }) => {
       body: JSON.stringify(formData),
     });
     const content = await res.json();
+    updateBook(bookId, { status: newStatus });
   };
 
-  const removeBook = async (id: number) => {
+  const removeBooks = async (id: number) => {
     const res = await fetch(`/api/books/${id}`, {
       method: "DELETE",
       headers: {
@@ -29,6 +33,7 @@ const CustomComponent: FC<CustomComponentProps> = ({ title, books }) => {
       },
     });
     const content = await res.json();
+    removeBook(id);
   };
 
   console.log(books);
@@ -43,7 +48,7 @@ const CustomComponent: FC<CustomComponentProps> = ({ title, books }) => {
             key={index}
             book={book}
             handleStatusChange={handleStatusChange}
-            removeBook={removeBook}
+            removeBook={removeBooks}
           />
         ))}
       </div>

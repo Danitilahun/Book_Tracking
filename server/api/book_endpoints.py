@@ -18,7 +18,7 @@ class BookEndpoints:
                 return created_book
             raise HTTPException(status_code=500, detail="Failed to create book")
 
-        @self.router.get("/books", response_model=list[Book])
+        @self.router.get("/", response_model=list[Book])
         def get_all_books():
             return self.book_repo.get_all_books()
 

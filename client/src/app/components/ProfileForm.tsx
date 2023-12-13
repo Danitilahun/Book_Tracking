@@ -21,7 +21,11 @@ const formSchema = z.object({
   }),
 });
 
-export function ProfileForm({ addBook }: { addBook: (title: string) => void }) {
+export function ProfileForm({
+  addNewBooks,
+}: {
+  addNewBooks: (title: string) => void;
+}) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -30,7 +34,7 @@ export function ProfileForm({ addBook }: { addBook: (title: string) => void }) {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    addBook(values.username); // Call the addBook function to add a new book
+    addNewBooks(values.username); // Call the addBook function to add a new book
     form.reset(); // Reset the form after submission
   };
 
