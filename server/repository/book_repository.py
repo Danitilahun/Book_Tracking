@@ -28,14 +28,6 @@ class BookRepository:
             return books
         return []
 
-    def get_book_by_id(self, book_id: int) -> Optional[Book]:
-        book_response = self.supabase.from_("books").select("*").eq("id", book_id).execute()
-        
-        if book_response and book_response.data and len(book_response.data) > 0:
-            book_data = book_response.data[0]
-            return Book(id=book_data["id"], title=book_data["title"], status=book_data["status"])
-        return None
-
     def update_book_status(self, book_id: int, new_status: str) -> bool:
         updated_book = self.supabase.from_("books") \
             .update({"status": new_status}) \
