@@ -72,7 +72,10 @@ const BookActions: React.FC<BookActionsProps> = ({ bookId, status }) => {
           Mark as completed
         </Button>
       )}
-      <Button className="w-full bg-red-500 hover:bg-red-800 transition-colors duration-300 ease-in-out">
+      <Button
+        className="w-full bg-red-500 hover:bg-red-800 transition-colors duration-300 ease-in-out"
+        onClick={removeBooks}
+      >
         Delete
       </Button>
     </CardFooter>

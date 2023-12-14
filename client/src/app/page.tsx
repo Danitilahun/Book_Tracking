@@ -26,10 +26,11 @@ export default function Home() {
     try {
       setIsLoading(true);
       const data = await fetchAllBooks();
-      console.log(data);
       addBooks(data || []);
     } catch (error) {
-      showErrorToast("Error occurred while fetching data");
+      showErrorToast(
+        "Error occurred while fetching data. Check your connection."
+      );
     } finally {
       setIsLoading(false);
     }
