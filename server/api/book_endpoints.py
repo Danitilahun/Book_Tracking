@@ -1,4 +1,3 @@
-# api/book_endpoints.py
 from fastapi import APIRouter, HTTPException
 from models.book import Book
 from repository.book_repository import BookRepository
