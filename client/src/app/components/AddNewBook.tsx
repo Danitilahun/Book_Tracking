@@ -76,9 +76,7 @@ export function AddNewBookForm() {
                       data-testid="my-input"
                     />
                   </FormControl>
-                  <Button type="submit">
-                    {isLoading ? "Submiting" : "Add Book"}
-                  </Button>
+                  <Button type="submit">{"Add Book"}</Button>
                 </div>
                 <FormMessage />
               </FormItem>
