@@ -1,23 +1,4 @@
 version: "3"
-# services:
-#   web:
-#     build: .
-#     command: sh -c "uvicorn main:app --reload --ports=8000 --host=0.0.0.0"
-#     ports:
-#       - "8000:8000"
-#   app:
-#     build:
-#       context: .
-#       dockerfile: Dockerfile
-#     container_name: client
-#     environment:
-#       - PATH_URL_BACKEND=http://127.0.0.1:8000
-#     ports:
-#       - "3000:3000"
-#     volumes:
-#       - .:/app
-#       - ./app/node_modules
-
 services:
   web:
     build:
