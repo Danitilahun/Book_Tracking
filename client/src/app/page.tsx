@@ -26,7 +26,8 @@ export default function Home() {
     try {
       setIsLoading(true);
       const data = await fetchAllBooks();
-      addBooks(data.result || []);
+      console.log(data);
+      addBooks(data || []);
     } catch (error) {
       showErrorToast("Error occurred while fetching data");
     } finally {

@@ -44,6 +44,7 @@ export function AddNewBookForm() {
     try {
       setIsLoading(true);
       const content = await addNewBook(title);
+      console.log(content);
       addBook(content);
     } catch (error) {
       showErrorToast("Error occurred while adding a new book");

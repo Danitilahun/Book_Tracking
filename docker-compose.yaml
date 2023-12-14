@@ -1,0 +1,40 @@
+version: "3"
+# services:
+#   web:
+#     build: .
+#     command: sh -c "uvicorn main:app --reload --ports=8000 --host=0.0.0.0"
+#     ports:
+#       - "8000:8000"
+#   app:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     container_name: client
+#     environment:
+#       - PATH_URL_BACKEND=http://127.0.0.1:8000
+#     ports:
+#       - "3000:3000"
+#     volumes:
+#       - .:/app
+#       - ./app/node_modules
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./server/Dockerfile
+    command: sh -c "uvicorn main:app --reload --port=8000 --host=0.0.0.0"
+    environment:
+      - URL=https://dxjljeazmxitkuwpbjpg.supabase.co
+      - KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR4amxqZWF6bXhpdGt1d3BianBnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDIzNzA5MDcsImV4cCI6MjAxNzk0NjkwN30.l5kt9VxiOgcafBaXdWKy8CeLHM5mvYQM6wNRK0uu2aU
+    ports:
+      - 8000:8000
+
+  client:
+    build:
+      context: .
+      dockerfile: ./client/Dockerfile
+    environment:
+      - PATH_URL_BACKEND=http://127.0.0.1:8000
+    ports:
+      - 3000:3000
