@@ -12,16 +12,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import useLoadingStore from "@/store/loading";
-import Load from "./LoadingSpinner";
 import useBookStore from "@/store/book";
 import { addNewBook } from "@/utils/apiFunctions";
 import { showErrorToast } from "@/utils/helper";
 import { formSchema } from "@/utils/validationSchema";
-import { useRef } from "react";
+import LoadingSpinner from "./LoadingSpinner";
 
 export function AddNewBookForm() {
-  const inputRef = useRef(null);
-
   const { isLoading, setIsLoading } = useLoadingStore((state) => ({
     isLoading: state.isLoading,
     setIsLoading: state.setIsLoading,
@@ -39,7 +36,6 @@ export function AddNewBookForm() {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // Clear the input field value using the ref after form submission
     addNewBooks(values.bookTitle);
     form.reset();
   };
@@ -57,7 +53,7 @@ export function AddNewBookForm() {
   };
 
   if (isLoading) {
-    return <Load />;
+    return <LoadingSpinner />;
   }
 
   return (

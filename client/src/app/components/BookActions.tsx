@@ -1,10 +1,11 @@
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import { CardFooter } from '@/components/ui/card';
-import { showErrorToast } from '@/utils/helper';
-import { removeBook, updateBookStatus } from '@/utils/apiFunctions';
-import useBookStore from '@/store/book';
-import useLoadingStore from '@/store/loading';
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { CardFooter } from "@/components/ui/card";
+import { showErrorToast } from "@/utils/helper";
+import { removeBook, updateBookStatus } from "@/utils/apiFunctions";
+import useBookStore from "@/store/book";
+import useLoadingStore from "@/store/loading";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface BookActionsProps {
   bookId: number;
@@ -15,6 +16,7 @@ const BookActions: React.FC<BookActionsProps> = ({ bookId, status }) => {
   const removeBookLocally = useBookStore((state) => state.removeBook);
   const updateBookLocally = useBookStore((state) => state.updateBook);
   const setIsLoading = useLoadingStore((state) => state.setIsLoading);
+  const isLoading = useLoadingStore((state) => state.isLoading);
 
   const handleStatusChange = async (newStatus: string) => {
     try {
@@ -40,20 +42,33 @@ const BookActions: React.FC<BookActionsProps> = ({ bookId, status }) => {
     }
   };
 
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <CardFooter className="flex-col gap-2">
-      {status !== 'To-Read' && (
-        <Button className="w-full" onClick={() => handleStatusChange('To-Read')}>
+      {status !== "To-Read" && (
+        <Button
+          className="w-full"
+          onClick={() => handleStatusChange("To-Read")}
+        >
           Mark as to-read
         </Button>
       )}
-      {status !== 'In-Progress' && (
-        <Button className="w-full" onClick={() => handleStatusChange('In-Progress')}>
+      {status !== "In-Progress" && (
+        <Button
+          className="w-full"
+          onClick={() => handleStatusChange("In-Progress")}
+        >
           Mark as in progress
         </Button>
       )}
-      {status !== 'Completed' && (
-        <Button className="w-full" onClick={() => handleStatusChange('Completed')}>
+      {status !== "Completed" && (
+        <Button
+          className="w-full"
+          onClick={() => handleStatusChange("Completed")}
+        >
           Mark as completed
         </Button>
       )}
