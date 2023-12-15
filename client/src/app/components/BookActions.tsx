@@ -4,8 +4,6 @@ import { CardFooter } from "@/components/ui/card";
 import { showErrorToast } from "@/utils/helper";
 import { removeBook, updateBookStatus } from "@/utils/apiFunctions";
 import useBookStore from "@/store/book";
-import useLoadingStore from "@/store/loading";
-import LoadingSpinner from "./LoadingSpinner";
 
 interface BookActionsProps {
   bookId: number;
@@ -15,36 +13,24 @@ interface BookActionsProps {
 const BookActions: React.FC<BookActionsProps> = ({ bookId, status }) => {
   const removeBookLocally = useBookStore((state) => state.removeBook);
   const updateBookLocally = useBookStore((state) => state.updateBook);
-  const setIsLoading = useLoadingStore((state) => state.setIsLoading);
-  const isLoading = useLoadingStore((state) => state.isLoading);
 
   const handleStatusChange = async (newStatus: string) => {
     try {
-      setIsLoading(true);
       await updateBookStatus(bookId, newStatus);
       updateBookLocally(bookId, { status: newStatus });
     } catch (error) {
       showErrorToast("Error while updating book status.");
-    } finally {
-      setIsLoading(false);
     }
   };
 
   const removeBooks = async () => {
     try {
-      setIsLoading(true);
       await removeBook(bookId);
       removeBookLocally(bookId);
     } catch (error) {
       showErrorToast("Error while removing book.");
-    } finally {
-      setIsLoading(false);
     }
   };
-
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
 
   return (
     <CardFooter className="flex-col gap-2">

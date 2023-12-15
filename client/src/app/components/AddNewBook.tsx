@@ -16,7 +16,6 @@ import useBookStore from "@/store/book";
 import { addNewBook } from "@/utils/apiFunctions";
 import { showErrorToast } from "@/utils/helper";
 import { formSchema } from "@/utils/validationSchema";
-import LoadingSpinner from "./LoadingSpinner";
 
 export function AddNewBookForm() {
   const { isLoading, setIsLoading } = useLoadingStore((state) => ({
@@ -42,19 +41,12 @@ export function AddNewBookForm() {
 
   const addNewBooks = async (title: string) => {
     try {
-      setIsLoading(true);
       const content = await addNewBook(title);
       addBook(content);
     } catch (error) {
       showErrorToast("Error occurred while adding a new book");
-    } finally {
-      setIsLoading(false);
     }
   };
-
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
 
   return (
     <div className="bg-white h-1/6 sm:h-1/4 md:h-1/6 shadow-md border-b-4 border-white-600 mt-2 flex items-center justify-center ">
