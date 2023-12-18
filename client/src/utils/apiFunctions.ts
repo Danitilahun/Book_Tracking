@@ -32,6 +32,33 @@ export const addNewBook = async (title: string): Promise<any> => {
   }
 };
 
+export const updateBookTitle = async (
+  bookId: number,
+  newTitle: string
+): Promise<void> => {
+  try {
+    const formData = {
+      title: newTitle,
+    };
+
+    const res = await fetch(`http://127.0.0.1:8000/books/title/${bookId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to update book title");
+    }
+
+    return res.json();
+  } catch (error) {
+    throw new Error("Error updating book title");
+  }
+};
+
 export const updateBookStatus = async (
   bookId: number,
   newStatus: string
