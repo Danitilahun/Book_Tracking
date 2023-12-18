@@ -27,6 +27,12 @@ class BookEndpoints:
             if updated:
                 return {"message": "Book status updated successfully"}
             raise HTTPException(status_code=404, detail="Book not found")
+        @self.router.put("/title/{book_id}")
+        def update_book_title(book_id: int, book: Book):
+            updated = self.book_repo.update_book_title(book_id, book.title)
+            if updated:
+                return {"message": "Book title updated successfully"}
+            raise HTTPException(status_code=404, detail="Book not found")
 
         @self.router.delete("/{book_id}")
         def delete_book(book_id: int):

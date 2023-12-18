@@ -27,6 +27,14 @@ class BookRepository:
                 books.append(Book(id=book_data["id"], title=book_data["title"], status=book_data["status"]))
             return books
         return []
+    
+    def update_book_title(self, book_id: int, new_title: str) -> bool:
+        updated_book = self.supabase.from_("books") \
+            .update({"title": new_title}) \
+            .eq("id", book_id) \
+            .execute()
+
+        return bool(updated_book and updated_book.data)
 
     def update_book_status(self, book_id: int, new_status: str) -> bool:
         updated_book = self.supabase.from_("books") \
