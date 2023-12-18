@@ -18,11 +18,6 @@ import { showErrorToast } from "@/utils/helper";
 import { formSchema } from "@/utils/validationSchema";
 
 export function AddNewBookForm() {
-  const { isLoading, setIsLoading } = useLoadingStore((state) => ({
-    isLoading: state.isLoading,
-    setIsLoading: state.setIsLoading,
-  }));
-
   const { addBook } = useBookStore((state) => ({
     addBook: state.addBook,
   }));
